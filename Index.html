@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Transfer Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script> <!-- jsPDF লাইব্রেরি লোড করা -->
+    <style>
+        /* Basic Reset */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 100%;
+            max-width: 210mm; /* A4 size width */
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #000; /* Border around the page */
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #FF8C00; /* আপনার কোম্পানির কালার */
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-group input:focus {
+            border-color: #FF8C00; /* Focus color */
+            outline: none;
+        }
+        .two-column {
+            display: flex;
+            justify-content: space-between;
+        }
+        .two-column .form-group {
+            width: 48%;
+        }
+        .three-column .form-group {
+            width: 31%;
+        }
+        .btn-submit {
+            background-color: #FF8C00; /* কোম্পানির কালার */
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn-submit:hover {
+            background-color: #e07a00;
+        }
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 10px; /* Footer text size adjusted */
+            font-weight: bold;
+            color: #333;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .signature-section {
+            margin-top: 20px;
+        }
+        .signature-section div {
+            display: inline-block;
+            width: 48%;
+            text-align: center;
+        }
+        .signature-section input {
+            border-top: 1px solid #000;
+            width: 100%;
+            height: 50px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header with Logo -->
+    <div class="header">
+        <img alt="Company Logo" src="logo.jpg.png">
+        
+        <div>Employee Transfer Form</div>
+    </div>
+
+    <!-- Form -->
+    <form id="transferForm">
+        <!-- Reference Number and Date -->
+        <div class="two-column">
+            <div class="form-group">
+                <label for="refNo">Ref No:</label>
+                <input type="text" id="refNo" placeholder="Enter Reference Number" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" required>
+            </div>
+        </div>
+
+        <!-- Department Section -->
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <input type="text" id="department" placeholder="Enter Department" required>
+        </div>
+
+        <!-- Transfer From Section -->
+        <div class="form-group">
+            <label>Transfer From:</label>
+        </div>
+        <div class="two-column">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" placeholder="Enter Employee Name" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeId">Employee ID:</label>
+                <input type="text" id="employeeId" placeholder="Enter Employee ID" required>
+            </div>
+        </div>
+        <div class="two-column">
+            <div class="form-group">
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" placeholder="Enter Designation" required>
+            </div>
+            <div class="form-group">
+                <label for="departmentProject">Department/Project:</label>
+                <input type="text" id="departmentProject" placeholder="Enter Department/Project" required>
+            </div>
+        </div>
+
+        <!-- Transfer To Section -->
+        <div class="form-group">
+            <label>Transfer To:</label>
+        </div>
+        <div class="two-column">
+            <div class="form-group">
+                <label for="newDesignation">New Designation:</label>
+                <input type="text" id="newDesignation" placeholder="Enter New Designation" required>
+            </div>
+            <div class="form-group">
+                <label for="newDepartment">New Department:</label>
+                <input type="text" id="newDepartment" placeholder="Enter New Department" required>
+            </div>
+        </div>
+        <div class="two-column">
+            <div class="form-group">
+                <label for="newReportingTo">New Reporting To:</label>
+                <input type="text" id="newReportingTo" placeholder="Enter New Reporting To" required>
+            </div>
+            <div class="form-group">
+                <label for="dateOfTransfer">Date of Transfer:</label>
+                <input type="date" id="dateOfTransfer" required>
+            </div>
+        </div>
+
+        <!-- Note Section -->
+        <div class="form-group">
+            <label>Note:</label>
+            <textarea id="note" placeholder="Enter any notes" rows="4" style="width: 100%;"></textarea>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div>
+                <label for="preparedBy">Prepared By:</label>
+                <input type="text" id="preparedBy" placeholder="Signature" disabled>
+            </div>
+            <div>
+                <label for="director">Director / Head of Department:</label>
+                <input type="text" id="director" placeholder="Signature" disabled>
+            </div>
+            <div>
+                <label for="hr">HR & Administration:</label>
+                <input type="text" id="hr" placeholder="Signature" disabled>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Footer with Company Info -->
+    <div class="footer">
+        <p>Credence Housing Limited</p>
+        <p>Created by Management Information System (Ruhul Amen)</p>
+    </div>
+
+    <!-- Print Button -->
+    <button class="btn-submit" onclick="printForm()">Print</button>
+</div>
+
+<script>
+    function printForm() {
+        // পেজটি প্রিন্ট করার জন্য প্রিন্ট অপশন ওপেন করা
+        window.print();
+    }
+</script>
+
+</body>
+</html>
